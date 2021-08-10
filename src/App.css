@@ -471,15 +471,15 @@ h6 {
   grid-row-gap: 2rem;
   grid-column-gap: 40px;
 }
-.form-group {
+.custom-form-group {
   text-transform: capitalize;
 }
-.form-group label {
+.custom-form-group label {
   display: block;
   letter-spacing: var(--mainSpacing);
   margin-bottom: 0.5rem;
 }
-.form-control {
+.custom-form-control {
   width: 100%;
   background: transparent;
   font-size: 1rem;

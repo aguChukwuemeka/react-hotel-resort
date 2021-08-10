@@ -6,17 +6,31 @@ const initialState = {
   sortedRooms: [],
   featuredRooms: [],
   isLoading: true,
+  type: "all",
+  capacity: 1,
+  price: 0,
+  minPrice: 0,
+  maxPrice: 0,
+  minSize: 0,
+  maxSize: 0,
+  breakfast: false,
+  pets: false,
 };
 
 export const getCurrentState = () => {
   let rooms = formatData(data);
-  //   console.log(rooms)
+  // console.log(rooms)
   let featuredRooms = rooms.filter((room) => room.featured === true);
+  let maxPrice = Math.max(...rooms.map((item) => item.price));
+  let maxSize = Math.max(...rooms.map((item) => item.size));
   const state = {
     rooms,
     featuredRooms,
     sortedRooms: rooms,
     isLoading: false,
+    price: maxPrice,
+    maxPrice,
+    maxSize,
   };
   // console.log(state);
   return state;
@@ -39,11 +53,24 @@ const slice = createSlice({
   initialState,
   reducers: {
     setRoom: (rooms, action) => {
-      return{
-    rooms: action.payload.rooms,
+      // console.log(action)
+      return {
+        ...rooms,
+        rooms: action.payload.rooms,
         featuredRooms: action.payload.featuredRooms,
         sortedRooms: action.payload.sortedRooms,
         isLoading: action.payload.isLoading,
+        price: action.payload.price,
+        maxPrice: action.payload.maxPrice,
+        maxSize: action.payload.maxSize,
+      };
+    },
+
+    getTypes: (rooms, action) => {
+      console.log(action);
+      return {
+        ...rooms,
+        type: action.payload.type,
       };
     },
 
@@ -61,5 +88,5 @@ const slice = createSlice({
   },
 });
 
-export const { setRoom } = slice.actions;
+export const { setRoom, getTypes } = slice.actions;
 export default slice.reducer;

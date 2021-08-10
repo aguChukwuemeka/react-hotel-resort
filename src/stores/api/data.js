@@ -421,7 +421,7 @@ export default [
     },
     fields: {
       name: "double deluxe",
-      // slug: "double-deluxe",
+      slug: "double-deluxe",
       type: "double",
       price: 400,
       size: 500,
