@@ -74,19 +74,15 @@ const slice = createSlice({
       };
     },
 
-    // getSinglePage: (rooms, action) => {
-    //   const index = rooms.rooms.find((room) => room.slug === action.payload.slug);
-    //   console.log(index)
-    //   // rooms[index].completed = action.payload.completed;
-    //   // console.log(action.payload.completed);
-    // },
-
-    // todoRemoved: (todos, action) => {
-    //   const index = todos.findIndex((todo) => todo.id !== action.payload.id);
-    //   todos.pop(todos[index]);
-    // },
+    sortedRoomsByTypes: (rooms, action) => {
+      console.log(action);
+      // return {
+      //   ...rooms,
+      //   sortedRooms: action.payload,
+      // };
+    },
   },
 });
 
-export const { setRoom, getTypes } = slice.actions;
+export const { setRoom, getTypes, sortedRoomsByTypes } = slice.actions;
 export default slice.reducer;

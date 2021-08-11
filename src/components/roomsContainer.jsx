@@ -12,7 +12,7 @@ export default function RoomsContainer() {
   return (
     <div className="rooms-list">
       <div className="rooms-list-center"></div>
-      <RoomsFilter rooms={rooms} />
+      <RoomsFilter props_rooms={rooms} />
       <RoomsList rooms={sortedRooms} />
     </div>
   );
