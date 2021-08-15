@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Title from "./title";
-import { getTypes, sortedRoomsByTypes } from "../stores/features/room";
+import {
+  getTypes,
+  sortedRoomsByTypes,
+  sortedRoomsByCapacity,
+} from "../stores/features/room";
 
 // setting  unique values
 function getUnique(items, value) {
@@ -24,15 +28,29 @@ export default function RoomsFilter({ props_rooms }) {
     breakfast,
     pets,
   } = roomState;
+  let checking = false;
 
-  useEffect(() => {
-    filterRoomFunc();
-  },[]);
+  useEffect(
+    (props) => {
+      checking = props;
+      filterRoomFunc();
+    },
+    [checking]
+  );
 
   // get unique types. the data to check: (rooms[], value checking)
   let types = getUnique(props_rooms, "type");
   types = ["all", ...types];
   types = types.map((item, index) => {
+    return (
+      <option key={index} value={item}>
+        {item}
+      </option>
+    );
+  });
+
+  let people = getUnique(props_rooms, "capacity");
+  people = people.map((item, index) => {
     return (
       <option key={index} value={item}>
         {item}
@@ -48,9 +66,21 @@ export default function RoomsFilter({ props_rooms }) {
   function filterRoomFunc() {
     console.log(type);
     let tempRooms = [...rooms];
+
+    // types
     if (type !== "all") {
-      let filterRooms = tempRooms.filter((room) => room.type === type);
-      dispatch(sortedRoomsByTypes( filterRooms ));
+      let filterRoomsByTypes = tempRooms.filter((room) => room.type === type);
+      dispatch(sortedRoomsByTypes(filterRoomsByTypes));
+    }
+
+    // capacity:people
+    let people = parseInt(capacity);
+    if (people !== 1) {
+      let filterRoomsByCapacity = tempRooms.filter(
+        (room) => room.people >= people
+      );
+      console.log('object : ', filterRoomsByCapacity)
+      dispatch(sortedRoomsByCapacity(filterRoomsByCapacity));
     }
   }
 
@@ -58,6 +88,7 @@ export default function RoomsFilter({ props_rooms }) {
     <section className="filter-container">
       <Title title="search rooms" />
       <form className="filter-form">
+
         <div className="custom-form-group">
           <label htmlFor="type">room type</label>
           <select
@@ -69,6 +100,33 @@ export default function RoomsFilter({ props_rooms }) {
           >
             {types}
           </select>
+        </div>
+
+        <div className="custom-form-group">
+          <label htmlFor="capacity">guests</label>
+          <select
+            className="custom-form-control"
+            name="capacity"
+            id="capacity"
+            value={capacity}
+            onChange={handleChange}
+          >
+            {people}
+          </select>
+        </div>
+
+        <div className="custom-form-group">
+          <label htmlFor="price">room price ${price}</label>
+          <input
+            className="custom-form-control"
+            type='range'
+            max={maxPrice}
+            min={minPrice}
+            name="price"
+            id="price"
+            value={price}
+            onChange={handleChange}
+          />
         </div>
       </form>
     </section>

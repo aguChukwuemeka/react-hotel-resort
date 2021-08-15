@@ -76,13 +76,21 @@ const slice = createSlice({
 
     sortedRoomsByTypes: (rooms, action) => {
       console.log(action);
-      // return {
-      //   ...rooms,
-      //   sortedRooms: action.payload,
-      // };
+      return {
+        ...rooms,
+        sortedRooms: action.payload,
+      };
+    },
+
+    sortedRoomsByCapacity: (rooms, action) => {
+      console.log(action);
+      return {
+        ...rooms,
+        sortedRooms: action.payload,
+      };
     },
   },
 });
 
-export const { setRoom, getTypes, sortedRoomsByTypes } = slice.actions;
+export const { setRoom, getTypes, sortedRoomsByTypes, sortedRoomsByCapacity } = slice.actions;
 export default slice.reducer;
