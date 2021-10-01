@@ -1,14 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import defaultImage from "../images/room-1.jpeg";
 
-
 export default function Room({ room }) {
-//   console.log(room);
+  //   console.log(room);
   const { name, images, slug, price } = room;
-
-
+  // console.log(typeof images);
   return (
     <article className="room">
       <div className="img-container">
@@ -26,11 +24,11 @@ export default function Room({ room }) {
   );
 }
 
-// Room.propTypes = {
-//   room: PropTypes.shape({
-//     name: PropTypes.string.isRequired,
-//     images: PropTypes.string.isRequired,
-//     slug: PropTypes.arrayOf(PropTypes.string).isRequired,
-//     price: PropTypes.number.isRequired,
-//   }),
-// };
+Room.propTypes = {
+  room: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    slug: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+  }),
+};

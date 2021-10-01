@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Title from "./title";
 import {
-  getTypes,
   sortedRoomsByTypes,
+  sortedRoomsByPrice,
+  sortedRoomsByMinSize,
+  sortedRoomsByMaxSize,
   sortedRoomsByCapacity,
+  sortedRoomsByBreakfast,
+  sortedRoomsByPets,
 } from "../stores/features/room";
 
 // setting  unique values
@@ -12,12 +16,12 @@ function getUnique(items, value) {
   return [...new Set(items.map((item) => item[value]))];
 }
 
-export default function RoomsFilter({ props_rooms }) {
+export default function RoomsFilter({ filterRooms }) {
+  
   const roomState = useSelector((state) => state.rooms);
   const dispatch = useDispatch();
-  console.log(roomState);
-  const {
-    rooms,
+
+  let {
     type,
     capacity,
     price,
@@ -28,18 +32,9 @@ export default function RoomsFilter({ props_rooms }) {
     breakfast,
     pets,
   } = roomState;
-  let checking = false;
-
-  useEffect(
-    (props) => {
-      checking = props;
-      filterRoomFunc();
-    },
-    [checking]
-  );
 
   // get unique types. the data to check: (rooms[], value checking)
-  let types = getUnique(props_rooms, "type");
+  let types = getUnique(filterRooms, "type");
   types = ["all", ...types];
   types = types.map((item, index) => {
     return (
@@ -49,7 +44,9 @@ export default function RoomsFilter({ props_rooms }) {
     );
   });
 
-  let people = getUnique(props_rooms, "capacity");
+  // get unique types. the data to check: (rooms[], value checking)
+  let people = getUnique(filterRooms, "capacity");
+  people = ["select", ...people];
   people = people.map((item, index) => {
     return (
       <option key={index} value={item}>
@@ -58,37 +55,32 @@ export default function RoomsFilter({ props_rooms }) {
     );
   });
 
-  function handleChange(event) {
-    filterRoomFunc();
-    dispatch(getTypes({ [event.target.name]: event.target.value }));
-  }
+  const handleTypeChange = ({ target }) =>
+    dispatch(sortedRoomsByTypes(target.value));
 
-  function filterRoomFunc() {
-    console.log(type);
-    let tempRooms = [...rooms];
+  const handleCapacityChange = ({ target }) =>
+    dispatch(sortedRoomsByCapacity(parseInt(target.value)));
 
-    // types
-    if (type !== "all") {
-      let filterRoomsByTypes = tempRooms.filter((room) => room.type === type);
-      dispatch(sortedRoomsByTypes(filterRoomsByTypes));
-    }
+  const handlePriceChange = ({ target }) =>
+    dispatch(sortedRoomsByPrice(parseInt(target.value)));
 
-    // capacity:people
-    let people = parseInt(capacity);
-    if (people !== 1) {
-      let filterRoomsByCapacity = tempRooms.filter(
-        (room) => room.people >= people
-      );
-      console.log('object : ', filterRoomsByCapacity)
-      dispatch(sortedRoomsByCapacity(filterRoomsByCapacity));
-    }
-  }
+  const handleSizeChange = ({ target }) => {
+    if (target.name === "minSize")
+      dispatch(sortedRoomsByMinSize(parseInt(target.value)));
+    else if (target.name === "maxSize")
+      dispatch(sortedRoomsByMaxSize(parseInt(target.value)));
+  };
+
+  const handleBreakfastChange = ({ target }) =>
+    dispatch(sortedRoomsByBreakfast(target.checked));
+
+  const handlePetsChange = ({ target }) =>
+    dispatch(sortedRoomsByPets(target.checked));
 
   return (
     <section className="filter-container">
       <Title title="search rooms" />
       <form className="filter-form">
-
         <div className="custom-form-group">
           <label htmlFor="type">room type</label>
           <select
@@ -96,12 +88,11 @@ export default function RoomsFilter({ props_rooms }) {
             name="type"
             id="type"
             value={type}
-            onChange={handleChange}
+            onChange={handleTypeChange}
           >
             {types}
           </select>
         </div>
-
         <div className="custom-form-group">
           <label htmlFor="capacity">guests</label>
           <select
@@ -109,24 +100,69 @@ export default function RoomsFilter({ props_rooms }) {
             name="capacity"
             id="capacity"
             value={capacity}
-            onChange={handleChange}
+            onChange={handleCapacityChange}
           >
             {people}
           </select>
         </div>
-
         <div className="custom-form-group">
           <label htmlFor="price">room price ${price}</label>
           <input
             className="custom-form-control"
-            type='range'
-            max={maxPrice}
-            min={minPrice}
+            type="range"
             name="price"
+            min={minPrice}
+            max={maxPrice}
             id="price"
             value={price}
-            onChange={handleChange}
+            onChange={handlePriceChange}
+            style={{ padding: "0em" }}
           />
+        </div>
+        <div className="custom-form-group">
+          <label htmlFor="capacity">Size</label>
+          <div className="size-inputs">
+            <input
+              className="size-input"
+              type="number"
+              name="minSize"
+              value={minSize}
+              onChange={handleSizeChange}
+            />
+            <input
+              className="size-input"
+              type="number"
+              name="maxSize"
+              value={maxSize}
+              onChange={handleSizeChange}
+            />
+          </div>
+        </div>
+        <div className="custom-form-group">
+          <div className="single-extra">
+            <input
+              className="size-input"
+              type="checkbox"
+              name="breakfast"
+              id="breakfast"
+              checked={breakfast}
+              onChange={handleBreakfastChange}
+              style={{ width: "1em" }}
+            />
+            <label htmlFor="breakfast">Breakfast</label>
+          </div>
+          <div className="single-extra">
+            <input
+              className="size-input"
+              type="checkbox"
+              name="pets"
+              id="pets"
+              checked={pets}
+              onChange={handlePetsChange}
+              style={{ width: "1em" }}
+            />
+            <label htmlFor="pets">Pets</label>
+          </div>
         </div>
       </form>
     </section>

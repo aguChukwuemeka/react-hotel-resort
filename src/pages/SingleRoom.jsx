@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import StylesHeader from "../components/styleHeaderComponents";
@@ -25,7 +25,6 @@ export default function SingleRoom({ match }) {
         <div className="error">
           <h3>such room could not be found!</h3>
           <Link to="/rooms" className="btn-custom mt-3">
-            {" "}
             back to rooms
           </Link>
         </div>
@@ -37,7 +36,7 @@ export default function SingleRoom({ match }) {
   const [mainImage, ...restImages] = image;
 
   return (
-    <>
+    <Fragment>
       <StylesHeader images={mainImage || defaultImage}>
         <Banner title={`${name} room`}>
           <Link to="/rooms" className="btn-custom">
@@ -76,6 +75,6 @@ export default function SingleRoom({ match }) {
         })}
         </ul>
       </footer>
-    </>
+    </Fragment>
   );
 }

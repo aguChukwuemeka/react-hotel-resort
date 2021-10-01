@@ -7,12 +7,10 @@ import { useSelector } from "react-redux";
 export default function Features() {
   const roomState = useSelector((state) => state.rooms);
   let { isLoading, featuredRooms: rooms } = roomState;
+  
   rooms = rooms.map((room) => {
     return <Rooms key={room.id} room={room} />;
   });
-
-  //   console.log(roomState);
-  //   console.log(rooms);
 
   return (
     <section className="featured-rooms">

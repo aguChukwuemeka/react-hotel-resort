@@ -6,17 +6,16 @@ import Loading from "./loading";
 
 export default function RoomsContainer() {
   const roomState = useSelector((state) => state.rooms);
-  //   console.log(roomState);
   let { isLoading, sortedRooms, rooms } = roomState;
-  if (isLoading) return <Loading />;
-  return (
-    <div className="rooms-list">
-      <div className="rooms-list-center"></div>
-      <RoomsFilter props_rooms={rooms} />
-      <RoomsList rooms={sortedRooms} />
-    </div>
-  );
-}
 
-// export const withRoomsConsumer = (Component) => (props) =>
-//   <RoomsConsumer>{(value) => <Component {...props} context={value} />}</RoomsConsumer>;
+  if (isLoading) {
+    return <Loading />;
+  } else
+    return (
+      <div className="rooms-list">
+        <div className="rooms-list-center"></div>
+        <RoomsFilter filterRooms={rooms} />
+        <RoomsList sortedRooms={sortedRooms} />
+      </div>
+    );
+}

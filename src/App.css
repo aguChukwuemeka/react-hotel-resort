@@ -1,4 +1,6 @@
-* {
+*,
+*::after,
+*::before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -354,6 +356,7 @@ h6 {
   background: var(--darkGrey);
   text-transform: capitalize;
   padding: 0.5rem 0;
+  margin: 0em;
   text-align: center;
   font-weight: 700;
   letter-spacing: var(--mainSpacing);
@@ -480,16 +483,18 @@ h6 {
   margin-bottom: 0.5rem;
 }
 .custom-form-control {
-  width: 100%;
-  background: transparent;
+  width: 90%;
   font-size: 1rem;
+  padding: 0.2rem;
+  border-radius: 0.3rem;
+  background: transparent;
 }
 .size-inputs {
   display: flex;
 }
 .size-input {
   width: 40%;
-  padding: 0.2rem;
+  padding: 0.01rem 0.3rem;
   border: 1px solid var(--mainBlack);
   border-radius: 0.3rem;
   margin-right: 0.3rem;
