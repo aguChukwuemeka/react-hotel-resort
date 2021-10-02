@@ -35,7 +35,7 @@ const initialState = {
   featuredRooms: [],
   isLoading: true,
   type: "all",
-  capacity: 1,
+  capacity: "select",
   price: 0,
   minPrice: 0,
   maxPrice: 0,
@@ -94,7 +94,7 @@ const slice = createSlice({
       state.minSize = payload.minSize;
       state.sortedRooms = state.rooms.filter((room) => room.size >= payload);
     },
-    
+
     sortedRoomsByBreakfast: (state, { payload }) => {
       state.sortedRooms =
         payload === false
